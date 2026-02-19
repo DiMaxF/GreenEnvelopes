@@ -12,8 +12,10 @@ struct RootView: View {
 
     var body: some View {
         Group {
-            if let remoteURL = viewModel.remoteURL, remoteURL.isValid, let url = remoteURL.value {
-                WebViewContainer(url: url)
+            if viewModel.isLoading {
+                Color.white
+            } else if let remoteURL = viewModel.remoteURL, remoteURL.isValid, let url = remoteURL.value, !viewModel.isWebViewDismissed {
+                WebViewContainer(url: url, onClose: { viewModel.dismissWebView() })
             } else {
                 appContent
             }
